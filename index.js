@@ -23,29 +23,10 @@ function calculateRoversPosition(initialInputArray) {
     for (let i = 0; i < roverCommands.length; i++) {
       const command = roverCommands[i];
 
-      // TODO: Improve this. DRY
       if (command === 'L') {
-        // do something with the direction
-        if (roverDir === 'N') {
-          roverDir = 'W';
-        } else if (roverDir === 'W') {
-          roverDir = 'S';
-        } else if (roverDir === 'S') {
-          roverDir = 'E';
-        } else {
-          roverDir = 'N';
-        }
+       roverDir = leftRotation[roverDir];
       } else if (command === 'R') {
-        // do something with the direction
-        if (roverDir === 'N') {
-          roverDir = 'E';
-        } else if (roverDir === 'E') {
-          roverDir = 'S';
-        } else if (roverDir === 'S') {
-          roverDir = 'W';
-        } else {
-          roverDir = 'N';
-        }
+        roverDir = rightRotation[roverDir];
       } else {
         // move into the existing direction by 1 point
         // do something with the direction
@@ -70,6 +51,25 @@ function calculateRoversPosition(initialInputArray) {
 
   return finalRoversPositions;
 }
+
+
+// to calculate rover direction when direction command is applied
+const leftRotation= {
+  'N' : 'W',
+  'W' : 'S',
+  'S' : 'E',
+  'E' : 'N'
+};
+
+const rightRotation = {
+  'N' : 'E',
+  'E' : 'S',
+  'S' : 'W',
+  'W' : 'N'
+};
+
+//-------
+
 
 const test = ['5 5', '1 2 N', 'LMLMLMLMM', '3 3 E', 'MMRMMRMRRM'];
 
