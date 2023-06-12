@@ -1,4 +1,4 @@
-// test input array:  ['5 5', '1 2 N', 'LMLLM', '2 3 S', 'LLLLMMM', '3 3 W', 'MMMLLLR'];
+// test input array:  ['5 5', '1 2 N', 'LMLLM', '2 3 S', 'LLLLMMM'];
 
 // output array: ['1 3 N', '5 1 E']
 
@@ -9,6 +9,12 @@
 function calculateRoversPosition(initialInputArray) {
   const finalRoversPositions = [];
 
+  // this is required to prevent the rover from falling off the plateau
+  const plateauUpperBounds = initialInputArray[0].split(' '); // ['5', '5']
+
+  const plateauBoundX = Number(plateauUpperBounds[0]);
+  const plateauBoundY = Number(plateauUpperBounds[1]);
+
   for (let i = 1; i < initialInputArray.length - 1; i += 2) {
     const roverPosition = initialInputArray[i].split(' '); // ['1', '2', 'N'];
 
@@ -18,6 +24,7 @@ function calculateRoversPosition(initialInputArray) {
     let roverDir = roverPosition[2];
 
     const roverCommands = initialInputArray[i + 1];
+   
 
     // Loop over the command string
     for (let i = 0; i < roverCommands.length; i++) {
@@ -29,14 +36,14 @@ function calculateRoversPosition(initialInputArray) {
         roverDir = rightRotation[roverDir];
       } else {
         // move into the existing direction by 1 point
-        // do something with the direction
-        if (roverDir === 'N') {
+        //Note: prevent rover to fall off from the plateau
+        if (roverDir === 'N' && roverY < plateauBoundY) {
           roverY += 1;
-        } else if (roverDir === 'W') {
+        } else if (roverDir === 'W' && roverX > 0) {
           roverX -= 1;
-        } else if (roverDir === 'S') {
+        } else if (roverDir === 'S' && roverY > 0) {
           roverY -= 1;
-        } else {
+        } else if (roverDir === 'E' && roverX < plateauBoundX) {
           roverX += 1;
         }
       }
